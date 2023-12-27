@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
 @Entity
 public class Product {
 
@@ -19,26 +20,21 @@ public class Product {
     private Long id;
 
     @Setter
-    @Getter
     @Nonnull
     private String title;
 
     @Setter
-    @Getter
     private String image;
 
     @Setter
-    @Getter
     @Nonnull
     private BigDecimal price;
 
     @Setter
-    @Getter
     @Nonnull
     private String description;
 
     @Setter
-    @Getter
     @Nonnull
     private String category;
 
