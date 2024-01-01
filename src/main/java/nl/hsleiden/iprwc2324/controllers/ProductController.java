@@ -1,8 +1,11 @@
 package nl.hsleiden.iprwc2324.controllers;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import nl.hsleiden.iprwc2324.models.Category;
 import nl.hsleiden.iprwc2324.models.Product;
+import nl.hsleiden.iprwc2324.repositories.CategoryRepository;
 import nl.hsleiden.iprwc2324.repositories.ProductRepository;
+import nl.hsleiden.iprwc2324.requests.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -21,20 +24,32 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @GetMapping
     public ResponseEntity<Iterable<Product>> productIndex() {
         return new ResponseEntity<>(productRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
-    public  ResponseEntity<Product> productCreate(@RequestBody Product product) {
+    public ResponseEntity<Product> productCreate(@RequestBody ProductRequest product) {
         Product p = new Product();
 
-        p.setTitle(product.getTitle());
-        p.setDescription(product.getDescription());
-        p.setImage(product.getImage());
-        p.setPrice(product.getPrice());
-        p.setCategory(product.getCategory());
+        Optional<Category> category = categoryRepository.findByName(product.category);
+
+        if (category.isEmpty()) {
+            Category newCat = new Category();
+            newCat.setName(product.category);
+            p.setCategoryId(categoryRepository.save(newCat).getId());
+        } else {
+            p.setCategoryId(category.get().getId());
+        }
+
+        p.setTitle(product.title);
+        p.setDescription(product.description);
+        p.setImage(product.image);
+        p.setPrice(product.price);
 
         return new ResponseEntity<>(productRepository.save(p), HttpStatus.OK);
     }
@@ -51,8 +66,8 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<Product> productUpdate(@RequestBody Product product) {
-        Optional<Product> prod = productRepository.findById(product.getId());
+    public ResponseEntity<Product> productUpdate(@RequestBody ProductRequest product) {
+        Optional<Product> prod = productRepository.findById(product.id.get());
 
         if (prod.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,11 +75,20 @@ public class ProductController {
 
         Product p = prod.get();
 
-        p.setTitle(product.getTitle());
-        p.setDescription(product.getDescription());
-        p.setImage(product.getImage());
-        p.setPrice(product.getPrice());
-        p.setCategory(product.getCategory());
+        Optional<Category> category = categoryRepository.findByName(product.category);
+
+        if (category.isEmpty()) {
+            Category newCat = new Category();
+            newCat.setName(product.category);
+            p.setCategoryId(categoryRepository.save(newCat).getId());
+        } else {
+            p.setCategoryId(category.get().getId());
+        }
+
+        p.setTitle(product.title);
+        p.setDescription(product.description);
+        p.setImage(product.image);
+        p.setPrice(product.price);
 
         return new ResponseEntity<>(productRepository.save(p), HttpStatus.OK);
     }

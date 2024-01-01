@@ -1,0 +1,15 @@
+<form class="m-3 p-4 grid grid-cols-1 w-max border rounded-2xl border-black">
+  <label class="font-bold">Title</label>
+  <input class="border border-gray-500" [(ngModel)]="title" name="title" type="text" placeholder="Enter a title">
+  <label class="font-bold">Description</label>
+  <input class="border border-gray-500" [(ngModel)]="description" name="description" type="text" placeholder="Enter a description">
+  <label class="font-bold">Price</label>
+  <input class="border border-gray-500" [(ngModel)]="price" name="price" type="number" placeholder="Enter a price">
+  <label class="font-bold">Category</label>
+  <select [(ngModel)]="category " name="category">
+    <option value="heren">Heren</option>
+    <option value="dames">Dames</option>
+    <option value="actie">Actie</option>
+  </select>
+  <button (click)="addProduct()">Add</button>
+</form>

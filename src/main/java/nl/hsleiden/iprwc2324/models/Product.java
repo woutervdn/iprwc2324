@@ -1,10 +1,7 @@
 package nl.hsleiden.iprwc2324.models;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,6 +33,6 @@ public class Product {
 
     @Setter
     @Nonnull
-    private String category;
+    private Long categoryId;
 
 }

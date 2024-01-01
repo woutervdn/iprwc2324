@@ -11,8 +11,15 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  productIndex() {
+  index() {
     return this.http.get<Product[]>(this.apiUrl + 'product');
   }
+
+  create(product: any) {
+    return this.http.post(this.apiUrl + 'product', product).subscribe(data => {
+      console.log(data);
+    })
+  }
+
 
 }
