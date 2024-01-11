@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ProductService} from "../product.service";
 import {Product} from "../../models/product";
 
@@ -7,15 +7,19 @@ import {Product} from "../../models/product";
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit, OnChanges {
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+  }
+  ngOnChanges(): void {
+    this.fetchProducts();
+  }
 
   ngOnInit() {
     this.fetchProducts();
   }
 
-  fetchProducts() {
+  public fetchProducts() {
     this.productService.index().subscribe((data) => {
       this.products = data;
       console.log("data", this.products);
@@ -41,6 +45,11 @@ export class AdminComponent implements OnInit{
     this.productService.create(prodObj);
     this.fetchProducts();
     console.log(prodObj);
+  }
+
+  removeProduct(id: number): void {
+    this.productService.delete(id);
+    this.products = this.products.filter((product: Product) => product.id !== id);
   }
 
 }

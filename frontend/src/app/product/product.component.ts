@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Product} from "../../models/product";
 import {ProductService} from "../product.service";
 
@@ -13,7 +13,13 @@ export class ProductComponent {
 
   @Input() route: String = '';
 
+  @Output('deleteProduct') deleteProduct: EventEmitter<number> = new EventEmitter<number>();
+
   constructor(public productService: ProductService) {
+  }
+
+  delete() {
+    this.deleteProduct.emit(this.product.id);
   }
 
 }

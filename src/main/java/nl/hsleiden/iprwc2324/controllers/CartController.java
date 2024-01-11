@@ -4,6 +4,7 @@ import nl.hsleiden.iprwc2324.models.*;
 import nl.hsleiden.iprwc2324.repositories.CartRepository;
 import nl.hsleiden.iprwc2324.repositories.UserRepository;
 import nl.hsleiden.iprwc2324.requests.ProductRequest;
+import nl.hsleiden.iprwc2324.responses.CartResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class CartController {
 //    }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Cart> cartRead(@PathVariable long userId) {
+    public ResponseEntity<CartResponse> cartRead(@PathVariable long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,7 +61,11 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(cart.get(), HttpStatus.OK);
+        Cart validCart = cart.get();
+
+        CartResponse response = new CartResponse(validCart.getId(), validCart.getUser().getId(), validCart.getItems(), validCart.getTotal());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{userId}")

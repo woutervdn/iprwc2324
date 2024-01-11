@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Product} from "../../models/product";
 import {ProductService} from "../product.service";
+import {CartService} from "../cart.service";
+import {Cart} from "../../models/cart";
 
 @Component({
   selector: 'app-main',
@@ -11,8 +13,7 @@ export class MainComponent implements OnInit {
 
   public products: Product[] = [];
 
-  constructor(private productService: ProductService) {
-  }
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.productService.index().subscribe((data) => {

@@ -14,5 +14,5 @@
   <button (click)="addProduct()">Add</button>
 </form>
 <ng-container *ngFor="let product of products">
-  <app-product route="admin" [product]="product"></app-product>
+  <app-product (deleteProduct)="removeProduct($event)" route="admin" [product]="product"></app-product>
 </ng-container>
