@@ -1,6 +1,8 @@
 package nl.hsleiden.iprwc2324.controllers;
 
+import nl.hsleiden.iprwc2324.models.Cart;
 import nl.hsleiden.iprwc2324.models.User;
+import nl.hsleiden.iprwc2324.repositories.CartRepository;
 import nl.hsleiden.iprwc2324.repositories.UserRepository;
 import nl.hsleiden.iprwc2324.requests.getUserRequest;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -19,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -53,6 +58,10 @@ public class UserController {
         newUser.setToken(RandomStringUtils.randomAlphanumeric(128));
 
         userRepository.save(newUser);
+
+        Cart cart = new Cart();
+        cart.setUser(newUser);
+        cartRepository.save(cart);
 
         return newUser;
     }

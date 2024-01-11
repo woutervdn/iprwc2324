@@ -1,4 +1,5 @@
 <app-nav></app-nav>
 <ng-container *ngFor="let product of products">
-  <app-product [product]="product"></app-product>
+  <app-product route="main" [product]="product"></app-product>
 </ng-container>
+<app-cart></app-cart>

@@ -2,14 +2,31 @@ package nl.hsleiden.iprwc2324.models;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
+
+    public Product(@Nonnull String title, String image, @Nonnull BigDecimal price, @Nonnull String description, @Nonnull Long categoryId) {
+        this.title = title;
+        this.image = image;
+        this.price = price;
+        this.description = description;
+        this.categoryId = categoryId;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,4 +52,9 @@ public class Product {
     @Nonnull
     private Long categoryId;
 
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

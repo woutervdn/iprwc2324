@@ -1,6 +1,8 @@
 <div class="m-2 rounded-2xl p-2 max-w-32 border-2 border-black">
   <h1 class="text-2xl font-bold first-letter:uppercase">{{this.product.title}}</h1>
+  <span *ngIf="route === 'admin'" (click)="productService.delete(this.product.id)" class="bg-red-600 hover:cursor-pointer">X</span>
   <p>{{this.product.description}}</p>
   <p>{{this.product.image}}</p>
   <p>{{'€'+this.product.price}}</p>
+  <div *ngIf="route === 'main'" class="hover:cursor-pointer bg-green-300">Add to Cart</div>
 </div>

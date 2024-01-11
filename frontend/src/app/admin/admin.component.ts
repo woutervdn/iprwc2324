@@ -1,16 +1,28 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../product.service";
+import {Product} from "../../models/product";
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit{
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.fetchProducts();
   }
 
+  fetchProducts() {
+    this.productService.index().subscribe((data) => {
+      this.products = data;
+      console.log("data", this.products);
+    });
+  }
+
+  public products: Product[] = [];
 
   title: string = '';
   description: string = '';
@@ -27,6 +39,7 @@ export class AdminComponent {
     }
 
     this.productService.create(prodObj);
+    this.fetchProducts();
     console.log(prodObj);
   }
 

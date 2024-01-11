@@ -6,10 +6,13 @@
   <label class="font-bold">Price</label>
   <input class="border border-gray-500" [(ngModel)]="price" name="price" type="number" placeholder="Enter a price">
   <label class="font-bold">Category</label>
-  <select [(ngModel)]="category " name="category">
+  <select [(ngModel)]="category" name="category">
     <option value="heren">Heren</option>
     <option value="dames">Dames</option>
     <option value="actie">Actie</option>
   </select>
   <button (click)="addProduct()">Add</button>
 </form>
+<ng-container *ngFor="let product of products">
+  <app-product route="admin" [product]="product"></app-product>
+</ng-container>
