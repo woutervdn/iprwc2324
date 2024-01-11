@@ -1,7 +1,9 @@
 package nl.hsleiden.iprwc2324.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,7 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartItem {
+
+    public CartItem(Product product, Integer amount) {
+        this.product = product;
+        this.amount = amount;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,5 +42,4 @@ public class CartItem {
 
     @UpdateTimestamp
     private Date updatedAt;
-
 }

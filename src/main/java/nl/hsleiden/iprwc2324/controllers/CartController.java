@@ -1,8 +1,9 @@
 package nl.hsleiden.iprwc2324.controllers;
 
 import nl.hsleiden.iprwc2324.models.*;
-import nl.hsleiden.iprwc2324.repositories.CartRepository;
-import nl.hsleiden.iprwc2324.repositories.UserRepository;
+import nl.hsleiden.iprwc2324.repositories.*;
+import nl.hsleiden.iprwc2324.requests.CartItemRequest;
+import nl.hsleiden.iprwc2324.requests.CartRequest;
 import nl.hsleiden.iprwc2324.requests.ProductRequest;
 import nl.hsleiden.iprwc2324.responses.CartResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +26,13 @@ public class CartController {
     private CartRepository cartRepository;
 
     @Autowired
+    private CartItemRepository cartItemRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
-//    @PostMapping
-//    public ResponseEntity<Cart> cartCreate(@RequestBody cartRequest cart) {
-//        Cart p = new Cart();
-//
-//        Optional<Category> category = categoryRepository.findByName(cart.category);
-//
-//        if (category.isEmpty()) {
-//            Category newCat = new Category();
-//            newCat.setName(cart.category);
-//            p.setCategoryId(categoryRepository.save(newCat).getId());
-//        } else {
-//            p.setCategoryId(category.get().getId());
-//        }
-//
-//        p.setTitle(cart.title);
-//        p.setDescription(cart.description);
-//        p.setImage(cart.image);
-//        p.setPrice(cart.price);
-//
-//        return new ResponseEntity<>(cartRepository.save(p), HttpStatus.OK);
-//    }
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping("/{userId}")
     public ResponseEntity<CartResponse> cartRead(@PathVariable long userId) {
@@ -69,7 +54,7 @@ public class CartController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Cart> cartUpdate(@PathVariable Long userId, @RequestBody List<CartItem> items) {
+    public ResponseEntity<Cart> cartUpdate(@PathVariable Long userId, @RequestBody CartRequest cartRequest) {
         Optional<Cart> cart = cartRepository.findByUserId(userId);
 
         if (cart.isEmpty()){
@@ -77,6 +62,33 @@ public class CartController {
         }
 
         Cart validCart = cart.get();
+        List<CartItem> oldItems = validCart.getItems();
+        if (!oldItems.isEmpty()) {
+            validCart.setItems(new ArrayList<>());
+            cartRepository.save(validCart);
+            cartItemRepository.deleteAll(oldItems);
+        }
+
+
+
+        List<CartItem> items = new ArrayList<>();
+
+        for (CartItemRequest itemRequest: cartRequest.getItems()) {
+            System.out.println(itemRequest.getProduct());
+            Optional<Product> product = productRepository.findById(itemRequest.getProduct());
+
+            if (product.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Product validProduct = product.get();
+
+            CartItem item = new CartItem(validProduct, itemRequest.getAmount());
+            cartItemRepository.save(item);
+
+            items.add(item);
+        }
+
         validCart.setItems(items);
         BigDecimal total = BigDecimal.valueOf(0);
 
@@ -85,6 +97,8 @@ public class CartController {
         }
 
         validCart.setTotal(total);
+
+        cartRepository.save(validCart);
 
         return new ResponseEntity<>(validCart, HttpStatus.OK);
     }
