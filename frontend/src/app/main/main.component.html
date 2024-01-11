@@ -1,5 +1,10 @@
-<app-nav></app-nav>
-<ng-container *ngFor="let product of products">
-  <app-product route="main" [product]="product"></app-product>
-</ng-container>
-<app-cart></app-cart>
+<app-nav (category)="filterByCategory($event)"></app-nav>
+<div class="grid grid-cols-2">
+  <div class="grid grid-cols-3">
+    <div *ngFor="let product of products">
+      <app-product *ngIf="product.category === this.category || this.category === ''" route="main" [product]="product"></app-product>
+    </div>
+  </div>
+  <app-cart></app-cart>
+</div>
+

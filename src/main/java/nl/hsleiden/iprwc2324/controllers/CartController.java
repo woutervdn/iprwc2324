@@ -69,12 +69,9 @@ public class CartController {
             cartItemRepository.deleteAll(oldItems);
         }
 
-
-
         List<CartItem> items = new ArrayList<>();
 
         for (CartItemRequest itemRequest: cartRequest.getItems()) {
-            System.out.println(itemRequest.getProduct());
             Optional<Product> product = productRepository.findById(itemRequest.getProduct());
 
             if (product.isEmpty()){

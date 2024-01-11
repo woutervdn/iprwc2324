@@ -12,13 +12,17 @@ import {Cart} from "../../models/cart";
 export class MainComponent implements OnInit {
 
   public products: Product[] = [];
+  public category: string = '';
 
   constructor(private productService: ProductService) {}
+
+  filterByCategory(cat: string){
+    this.category = cat;
+  }
 
   ngOnInit() {
     this.productService.index().subscribe((data) => {
       this.products = data;
-      console.log("data", this.products);
     });
   }
 

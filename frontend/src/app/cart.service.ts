@@ -18,7 +18,7 @@ export class CartService {
     return this.http.get<Cart>(this.apiUrl + this.userId);
   }
 
-  // addToCart(id) {
-  //
-  // }
+  addToCart(cart: Cart) {
+    return this.http.put<Cart>(this.apiUrl + this.userId, cart);
+  }
 }

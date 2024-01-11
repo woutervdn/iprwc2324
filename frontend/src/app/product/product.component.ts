@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Product} from "../../models/product";
 import {ProductService} from "../product.service";
+import {CartService} from "../cart.service";
 
 @Component({
   selector: 'app-product',
@@ -15,11 +16,18 @@ export class ProductComponent {
 
   @Output('deleteProduct') deleteProduct: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(public productService: ProductService) {
+  @Output('productID') productID: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor(public productService: ProductService, private cartService: CartService) {
+    console.log(this.product)
   }
 
   delete() {
     this.deleteProduct.emit(this.product.id);
+  }
+
+  addToCart() {
+    this.productID.emit(this.product.id);
   }
 
 }

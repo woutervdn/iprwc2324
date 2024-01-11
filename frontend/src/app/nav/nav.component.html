@@ -1,8 +1,8 @@
 <nav class="mx-auto mt-2 mb-2 w-1/3 rounded-2xl bg-stone-400 px-5">
   <ul class="flex justify-center">
-    <li class="cursor-pointer bg-stone-400 px-5 text-3xl hover:bg-stone-300">Home</li>
-    <li class="cursor-pointer bg-stone-400 px-5 text-3xl hover:bg-stone-300">Dames</li>
-    <li class="cursor-pointer bg-stone-400 px-5 text-3xl hover:bg-stone-300">Heren</li>
-    <li class="cursor-pointer bg-stone-400 px-5 text-3xl hover:bg-stone-300">Actie</li>
+    <li class="cursor-pointer select-none bg-stone-400 px-5 text-3xl hover:bg-stone-300" (click)="setCategory('')">All</li>
+    <li class="cursor-pointer select-none bg-stone-400 px-5 text-3xl hover:bg-stone-300" (click)="setCategory('Dames')">Dames</li>
+    <li class="cursor-pointer select-none bg-stone-400 px-5 text-3xl hover:bg-stone-300" (click)="setCategory('Heren')">Heren</li>
+    <li class="cursor-pointer select-none bg-stone-400 px-5 text-3xl hover:bg-stone-300" (click)="setCategory('Actie')">Actie</li>
   </ul>
 </nav>
