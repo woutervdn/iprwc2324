@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nl.hsleiden.iprwc2324.models.Product;
 
 @Getter
 @NoArgsConstructor
@@ -12,6 +13,6 @@ public class CartItemRequest {
 
     private Integer amount;
 
-    private Long product;
+    private Product product;
 
 }

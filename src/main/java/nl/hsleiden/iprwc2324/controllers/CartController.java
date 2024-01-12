@@ -54,7 +54,7 @@ public class CartController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Cart> cartUpdate(@PathVariable Long userId, @RequestBody CartRequest cartRequest) {
+    public ResponseEntity<Cart> cartUpdate(@PathVariable long userId, @RequestBody CartRequest cartRequest) {
         Optional<Cart> cart = cartRepository.findByUserId(userId);
 
         if (cart.isEmpty()){
@@ -72,7 +72,7 @@ public class CartController {
         List<CartItem> items = new ArrayList<>();
 
         for (CartItemRequest itemRequest: cartRequest.getItems()) {
-            Optional<Product> product = productRepository.findById(itemRequest.getProduct());
+            Optional<Product> product = productRepository.findById(itemRequest.getProduct().getId());
 
             if (product.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,6 +81,7 @@ public class CartController {
             Product validProduct = product.get();
 
             CartItem item = new CartItem(validProduct, itemRequest.getAmount());
+
             cartItemRepository.save(item);
 
             items.add(item);

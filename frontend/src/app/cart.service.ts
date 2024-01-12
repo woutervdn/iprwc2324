@@ -3,22 +3,43 @@ import {Product} from "../models/product";
 import {ProductService} from "./product.service";
 import {HttpClient} from "@angular/common/http";
 import {Cart} from "../models/cart";
+import {logMessages} from "@angular-devkit/build-angular/src/tools/esbuild/utils";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private apiUrl = 'http://localhost:8080/api/cart/';
-  private userId: number = 1;
+  public cart: Cart = {
+    id: 0,
+    user_id: 0,
+    items: [],
+    total: 0
+  };
 
-  constructor(private productService: ProductService, private http: HttpClient) { }
+  addToCart(product: Product) {
+    let item = this.cart.items.find(item => item.product.id === product.id);
+    if (item !== undefined){
+      item.amount += 1;
+    } else {
+      this.cart.items.push({
+        "id": 0,
+        "amount": 1,
+        "product": product
+      });
+    }
+    this.cart.total += product.price;
+  }
+
+  emptyCart() {
+    this.cart.items = [];
+    this.cart.total = 0;
+  }
+
+  constructor(private productService: ProductService) { }
 
   getCart() {
-    return this.http.get<Cart>(this.apiUrl + this.userId);
+    return this.cart
   }
 
-  addToCart(cart: Cart) {
-    return this.http.put<Cart>(this.apiUrl + this.userId, cart);
-  }
 }

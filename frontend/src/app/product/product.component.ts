@@ -27,7 +27,8 @@ export class ProductComponent {
   }
 
   addToCart() {
-    this.productID.emit(this.product.id);
+    console.log(this.product.id);
+    this.cartService.addToCart(this.product)
   }
 
 }
