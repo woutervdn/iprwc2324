@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponse {
 
-    private Long id;
+    private UUID id;
 
     private String title;
 

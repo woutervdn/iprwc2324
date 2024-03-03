@@ -15,10 +15,7 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping(path = "/api/product")
@@ -57,6 +54,10 @@ public class ProductController {
     public ResponseEntity<Product> productCreate(@RequestBody ProductRequest product) {
         Product p = new Product();
 
+        if (product.title.isEmpty() || product.description.isEmpty() || product.category.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Category> category = categoryRepository.findByName(product.category);
 
         if (category.isEmpty()) {
@@ -76,7 +77,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> productRead(@PathVariable long id) {
+    public ResponseEntity<Product> productRead(@PathVariable UUID id) {
         Optional<Product> prod = productRepository.findById(id);
 
         if (prod.isEmpty()){
@@ -115,7 +116,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> productDelete(@PathVariable long id) {
+    public ResponseEntity<Product> productDelete(@PathVariable UUID id) {
         Optional<Product> prod = productRepository.findById(id);
 
         if (prod.isEmpty()) {

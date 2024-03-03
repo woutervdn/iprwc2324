@@ -8,54 +8,42 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
-@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
-    public Product(@Nonnull String title, String image, @Nonnull BigDecimal price, @Nonnull String description, @Nonnull Long categoryId) {
-        this.title = title;
-        this.image = image;
-        this.price = price;
-        this.description = description;
-        this.categoryId = categoryId;
-    }
-
+public class ProductOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     @Setter
     private UUID id;
 
-    @Setter
-    @Nonnull
-    private String title;
+//    @Getter
+//    @Setter
+//    @OneToOne
+//    @Nonnull
+//    private User user;
 
+    @Getter
     @Setter
-    private String image;
+    @OneToMany
+    private List<ProductOrderItem> items;
 
+    @Getter
     @Setter
-    @Nonnull
-    private BigDecimal price;
-
-    @Setter
-    @Nonnull
-    private String description;
-
-    @Setter
-    @Nonnull
-    private Long categoryId;
+    private BigDecimal total = BigDecimal.valueOf(0);
 
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
+
 }

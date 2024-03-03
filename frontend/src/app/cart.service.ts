@@ -19,9 +19,10 @@ export class CartService {
 
   addToCart(product: Product) {
     let item = this.cart.items.find(item => item.product.id === product.id);
-    if (item !== undefined){
+    if (item !== undefined) {
       item.amount += 1;
-    } else {
+    }
+    else {
       this.cart.items.push({
         "id": 0,
         "amount": 1,
