@@ -32,7 +32,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter
-    private UUID id;
+    private Long id;
 
     @Setter
     @Nonnull

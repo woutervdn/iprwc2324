@@ -23,7 +23,7 @@ public class ProductOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     @Setter
-    private UUID id;
+    private Long id;
 
 //    @Getter
 //    @Setter

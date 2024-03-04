@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class ProductRequest {
 
-    public Optional<UUID> id;
+    public Optional<Long> id;
 
     public String title;
 

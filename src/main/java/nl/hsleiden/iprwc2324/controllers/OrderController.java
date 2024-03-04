@@ -41,14 +41,14 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Object> orderRead(@PathVariable UUID orderId) {
+    public ResponseEntity<Object> orderRead(@PathVariable Long orderId) {
         Optional<ProductOrder> order = productOrderRepository.findById(orderId);
 
         if (!order.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(order.get(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(order.get(), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -67,7 +67,7 @@ public class OrderController {
 
             Product prod = product.get();
 
-            order.getTotal().add(prod.getPrice().multiply(BigDecimal.valueOf(item.getAmount())));
+            total = total.add(order.getTotal().add(prod.getPrice().multiply(BigDecimal.valueOf(item.getAmount()))));
 
             orderItem.setProduct(prod);
             orderItem.setAmount(item.getAmount());
@@ -84,7 +84,7 @@ public class OrderController {
     }
 
     @PutMapping("/{orderID}")
-    public ResponseEntity<Object> orderUpdate(@PathVariable UUID orderID, @RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<Object> orderUpdate(@PathVariable("orderID") Long orderID, @RequestBody OrderRequest orderRequest) {
         Optional<ProductOrder> productOrder = productOrderRepository.findById(orderID);
 
         if (productOrder.isEmpty()) {
@@ -92,6 +92,8 @@ public class OrderController {
         }
 
         ProductOrder order = productOrder.get();
+
+        List<ProductOrderItem> oldItems = order.getItems();
 
         BigDecimal total = BigDecimal.valueOf(0);
         List<ProductOrderItem> items = new ArrayList<>();
@@ -106,7 +108,7 @@ public class OrderController {
 
             Product prod = product.get();
 
-            order.getTotal().add(prod.getPrice().multiply(BigDecimal.valueOf(item.getAmount())));
+            total = total.add(prod.getPrice().multiply(BigDecimal.valueOf(item.getAmount())));
 
             orderItem.setProduct(prod);
             orderItem.setAmount(item.getAmount());
@@ -117,13 +119,15 @@ public class OrderController {
         order.setTotal(total);
         order.setItems(items);
 
+        productOrderItemRepository.deleteAll(oldItems);
+
         productOrderRepository.save(order);
 
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @DeleteMapping("/{orderID}")
-    public ResponseEntity<Object> orderDelete(@PathVariable UUID orderID) {
+    public ResponseEntity<Object> orderDelete(@PathVariable Long orderID) {
         Optional<ProductOrder> productOrder = productOrderRepository.findById(orderID);
 
         if (productOrder.isEmpty()) {

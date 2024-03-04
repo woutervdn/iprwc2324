@@ -77,7 +77,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> productRead(@PathVariable UUID id) {
+    public ResponseEntity<Product> productRead(@PathVariable Long id) {
         Optional<Product> prod = productRepository.findById(id);
 
         if (prod.isEmpty()){
@@ -116,7 +116,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> productDelete(@PathVariable UUID id) {
+    public ResponseEntity<Product> productDelete(@PathVariable Long id) {
         Optional<Product> prod = productRepository.findById(id);
 
         if (prod.isEmpty()) {
