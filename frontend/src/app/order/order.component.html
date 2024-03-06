@@ -1,0 +1,7 @@
+<div class="m-2 rounded-2xl p-2 max-w-64 border-2 border-black">
+  <h1 class="text-2xl font-bold first-letter:uppercase">Order {{this.order.id}}</h1>
+  <div *ngFor="let item of order.items">
+    <p>{{item.amount}}x {{item.product.title}}</p>
+  </div>
+  <p>{{'€'+this.order.total}}</p>
+</div>

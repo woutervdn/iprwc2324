@@ -10,6 +10,7 @@ import { MainComponent } from './main/main.component';
 import { AdminComponent } from './admin/admin.component';
 import {FormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
+import { OrderComponent } from './order/order.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
     NavComponent,
     MainComponent,
     AdminComponent,
-    CartComponent
+    CartComponent,
+    OrderComponent
   ],
     imports: [
         BrowserModule,
