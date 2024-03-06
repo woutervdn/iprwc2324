@@ -1,29 +1,38 @@
-<div class="grid grid-cols-3">
+<div class="flex">
   <div>
+    <h1 class="text-2xl font-bold m-2">Add Product</h1>
     <form class="m-3 p-4 grid grid-cols-1 w-max border rounded-2xl border-black">
       <label class="font-bold">Title</label>
-      <input class="border border-gray-500" [(ngModel)]="title" name="title" type="text" placeholder="Enter a title">
+      <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="title" name="title" type="text" placeholder="Enter a title">
       <label class="font-bold">Description</label>
-      <input class="border border-gray-500" [(ngModel)]="description" name="description" type="text" placeholder="Enter a description">
+      <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="description" name="description" type="text" placeholder="Enter a description">
       <label class="font-bold">Price</label>
-      <input class="border border-gray-500" [(ngModel)]="price" name="price" type="number" placeholder="Enter a price">
+      <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="price" name="price" type="number" placeholder="Enter a price">
       <label class="font-bold">Category</label>
-      <select [(ngModel)]="category" name="category">
+      <select class="my-1 rounded border-gray-500 p-1" [(ngModel)]="category" name="category">
         <option value="heren">Heren</option>
         <option value="dames">Dames</option>
         <option value="actie">Actie</option>
       </select>
-      <button (click)="addProduct()">Add</button>
+      <div class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addProduct()">
+        <mat-icon aria-hidden="false" fontIcon="add"></mat-icon>
+      </div>
     </form>
   </div>
   <div>
-    <ng-container *ngFor="let product of products">
-      <app-product (deleteProduct)="removeProduct($event)" route="admin" [product]="product"></app-product>
-    </ng-container>
+    <h1 class="text-2xl font-bold m-2">Products</h1>
+    <div class="grid grid-cols-3">
+      <ng-container *ngFor="let product of products">
+        <app-product (deleteProduct)="removeProduct($event)" route="admin" [product]="product"></app-product>
+      </ng-container>
+    </div>
   </div>
   <div>
-    <ng-container *ngFor="let order of orders">
-      <app-order [order]="order"></app-order>
-    </ng-container>
+    <h1 class="text-2xl font-bold m-2">Orders</h1>
+    <div class="grid grid-cols-2">
+      <ng-container *ngFor="let order of orders">
+        <app-order [order]="order"></app-order>
+      </ng-container>
+    </div>
   </div>
 </div>

@@ -11,6 +11,7 @@ import { AdminComponent } from './admin/admin.component';
 import {FormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
+import {MatIconModule} from "@angular/material/icon";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -27,13 +28,14 @@ const routes: Routes = [
     CartComponent,
     OrderComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        RouterOutlet,
-        FormsModule,
-        RouterLinkActive,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    RouterOutlet,
+    FormsModule,
+    RouterLinkActive,
+    MatIconModule,
+  ],
   providers: [provideRouter(routes)],
   bootstrap: [AppComponent]
 })

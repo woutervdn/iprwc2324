@@ -16,4 +16,10 @@ export class OrderService {
     return this.http.get<Order[]>(this.apiUrl + 'order');
   }
 
+  create(order: any) {
+    return this.http.post(this.apiUrl + 'order', order).subscribe(data => {
+      console.log(data);
+    })
+  }
+
 }

@@ -3,5 +3,5 @@
   <div *ngFor="let item of order.items">
     <p>{{item.amount}}x {{item.product.title}}</p>
   </div>
-  <p>{{'€'+this.order.total}}</p>
+  <p class="font-bold">{{'€'+this.order.total}}</p>
 </div>

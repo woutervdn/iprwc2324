@@ -3,6 +3,7 @@ import {Cart} from "../../models/cart";
 import {CartService} from "../cart.service";
 import {Product} from "../../models/product";
 import {formatCurrency, formatNumber} from "@angular/common";
+import {OrderService} from "../order.service";
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,10 @@ export class CartComponent implements OnInit {
     total: 0
   };
 
-  constructor(private cartService: CartService) {
-  }
+  constructor(
+    private cartService: CartService,
+    private orderService: OrderService
+  ) {}
 
   fetchCart() {
     this.cart = this.cartService.getCart();
@@ -27,6 +30,10 @@ export class CartComponent implements OnInit {
 
   clearCart() {
     this.cartService.emptyCart();
+  }
+
+  orderCart() {
+    this.orderService.create(this.cart);
   }
 
   ngOnInit(): void {

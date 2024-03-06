@@ -1,10 +1,14 @@
 <div class="m-2 p-2 w-64 rounded-2xl border-2 border-black">
-  <div class="flex">
-    <h1 class="text-2xl font-bold">Cart</h1><span (click)="clearCart()" >Clear</span>
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Cart</h1>
+    <mat-icon *ngIf="cart.items.length > 0" class="text-red-500 hover:cursor-pointer" fontIcon="remove_shopping_cart" (click)="clearCart()"></mat-icon>
   </div>
   <p *ngIf="cart.items.length === 0">Geen producten in mandje</p>
   <ul *ngIf="cart.items.length > 0">
-    <li *ngFor="let item of this.cart.items">{{item.amount + "x " + item.product.title}} <span class="bg-red-600 hover:cursor-pointer">X</span></li>
+    <li class="flex items-center" *ngFor="let item of this.cart.items">{{item.amount + "x " + item.product.title}}
+      <mat-icon class="mx-1 hover:cursor-pointer" fontIcon="remove_circle"></mat-icon>
+    </li>
   </ul>
   <p>Totaal: €{{this.cart.total.toFixed(2)}}</p>
+  <p *ngIf="cart.items.length > 0" (click)="orderCart()">Order</p>
 </div>
