@@ -21,15 +21,11 @@ export class ProductService {
   }
 
   update(product: any) {
-    return this.http.put(this.apiUrl + 'product', product).subscribe(data => {
-      console.log(data);
-    })
+    return this.http.put<Product>(this.apiUrl + 'product', product);
   }
 
   delete(productId: number) {
-    return this.http.delete(this.apiUrl + 'product/' + productId).subscribe(data => {
-      console.log(data);
-    })
+    return this.http.delete<Product>(this.apiUrl + 'product/' + productId);
   }
 
 

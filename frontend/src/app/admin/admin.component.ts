@@ -80,6 +80,17 @@ export class AdminComponent implements OnInit, OnChanges {
     this.crudMode = 'update';
   }
 
+  resetForm() {
+    this.id = 0;
+    this.title = '';
+    this.image = '';
+    this.description = '';
+    this.price = 0;
+    this.category = '';
+
+    this.crudMode = 'create';
+  }
+
   editProduct(id: number): void {
     let prodObj = {
       "id": id,
@@ -90,13 +101,17 @@ export class AdminComponent implements OnInit, OnChanges {
       "category": this.category
     }
 
-    this.productService.update(prodObj);
-    this.fetchProducts();
+    this.productService.update(prodObj).subscribe(() => {
+      this.fetchProducts();
+    });
+
+    this.resetForm();
   }
 
   removeProduct(id: number): void {
-    this.productService.delete(id);
-    this.products = this.products.filter((product: Product) => product.id !== id);
+    this.productService.delete(id).subscribe(() => {
+      this.fetchProducts();
+    });
   }
 
 }
