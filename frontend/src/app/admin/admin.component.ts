@@ -11,6 +11,18 @@ import {OrderService} from "../order.service";
 })
 export class AdminComponent implements OnInit, OnChanges {
 
+  public products: Product[] = [];
+  public orders: Order[] = [];
+
+  id: number = 0;
+  title: string = '';
+  description: string = '';
+  price: number = 0;
+  category: string = '';
+  image: string = '';
+
+  crudMode: string = 'create'
+
   constructor(
     private productService: ProductService,
     private orderService: OrderService
@@ -25,26 +37,19 @@ export class AdminComponent implements OnInit, OnChanges {
     this.fetchOrders();
   }
 
-  public fetchProducts() {
-    this.productService.index().subscribe((data) => {
-      this.products = data;
+  fetchProducts() {
+    this.productService.index().subscribe(products => {
+      this.products = products;
+      console.log("products", this.products);
     });
   }
 
-  public fetchOrders() {
+  fetchOrders() {
     this.orderService.index().subscribe((data) => {
       this.orders = data;
       console.log("orders", this.orders);
     });
   }
-
-  public products: Product[] = [];
-  public orders: Order[] = [];
-
-  title: string = '';
-  description: string = '';
-  price: number = 0;
-  category: string = '';
 
   addProduct(): void {
     let prodObj = {
@@ -55,9 +60,38 @@ export class AdminComponent implements OnInit, OnChanges {
       "category": this.category
     }
 
-    this.productService.create(prodObj);
+    this.productService.create(prodObj).subscribe(data => {
+      this.fetchProducts();
+    });
+  }
+
+  setProduct(id: number) {
+    let prod: any = this.products.find((product) => {
+      return product.id === id;
+    })
+
+    this.id = id;
+    this.title = prod.title;
+    this.image = prod.image;
+    this.description = prod.description;
+    this.price = prod.price;
+    this.category = prod.category.toLowerCase();
+
+    this.crudMode = 'update';
+  }
+
+  editProduct(id: number): void {
+    let prodObj = {
+      "id": id,
+      "title": this.title,
+      "description": this.description,
+      "image": this.image,
+      "price": this.price,
+      "category": this.category
+    }
+
+    this.productService.update(prodObj);
     this.fetchProducts();
-    console.log(prodObj);
   }
 
   removeProduct(id: number): void {

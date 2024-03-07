@@ -16,6 +16,8 @@ export class ProductComponent {
 
   @Output('deleteProduct') deleteProduct: EventEmitter<number> = new EventEmitter<number>();
 
+  @Output('editProduct') editProduct: EventEmitter<number> = new EventEmitter<number>();
+
   @Output('productID') productID: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(public productService: ProductService, private cartService: CartService) {
@@ -24,6 +26,10 @@ export class ProductComponent {
 
   delete() {
     this.deleteProduct.emit(this.product.id);
+  }
+
+  edit() {
+    this.editProduct.emit(this.product.id);
   }
 
   addToCart() {

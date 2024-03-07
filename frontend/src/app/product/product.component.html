@@ -1,9 +1,12 @@
 <div class="m-1 rounded-2xl p-2 max-w-64 border-2 border-black">
   <div class="flex justify-between items-center">
     <h1 class="text-2xl font-bold first-letter:uppercase">{{this.product.title}}</h1>
-    <mat-icon *ngIf="route === 'admin'" (click)="delete()" class="bg-red-500 rounded hover:cursor-pointer" fontIcon="delete"></mat-icon>
+    <div>
+      <mat-icon *ngIf="route === 'admin'" (click)="edit()" class="bg-blue-500 mx-1 rounded hover:cursor-pointer hover:bg-blue-400" fontIcon="edit"></mat-icon>
+      <mat-icon *ngIf="route === 'admin'" (click)="delete()" class="bg-red-500 mx-1 rounded hover:cursor-pointer hover:bg-red-400" fontIcon="delete"></mat-icon>
+    </div>
   </div>
-  <img class="rounded" src="{{this.product.image}}" alt="{{this.product.title}}">
+  <img class="rounded h-72 m-1 border w-auto" src="{{this.product.image}}" alt="{{this.product.title}}">
   <p>{{this.product.description}}</p>
   <p class="text-2xl font-bold">{{'€'+this.product.price}}</p>
   <div *ngIf="route === 'main'" class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addToCart()">

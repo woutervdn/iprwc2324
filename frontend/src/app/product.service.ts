@@ -17,7 +17,11 @@ export class ProductService {
   }
 
   create(product: any) {
-    return this.http.post(this.apiUrl + 'product', product).subscribe(data => {
+    return this.http.post<Product>(this.apiUrl + 'product', product);
+  }
+
+  update(product: any) {
+    return this.http.put(this.apiUrl + 'product', product).subscribe(data => {
       console.log(data);
     })
   }

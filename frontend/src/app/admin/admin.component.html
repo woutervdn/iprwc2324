@@ -1,8 +1,12 @@
 <div class="grid grid-cols-4">
   <div>
-    <h1 class="text-2xl font-bold m-2">Add Product</h1>
+    <h1 *ngIf="crudMode === 'create'" class="text-2xl font-bold m-2">Add Product</h1>
+    <h1 *ngIf="crudMode === 'update'" class="text-2xl font-bold m-2">Edit Product</h1>
     <form class="m-3 p-4 grid grid-cols-1 border-2 rounded-2xl border-black">
-      <label class="font-bold">Title</label>
+      <span class="flex justify-between">
+        <label class="font-bold">Title</label>
+        <mat-icon *ngIf="crudMode === 'update'" class="bg-red-500 mx-1 rounded hover:cursor-pointer hover:bg-red-400" (click)="crudMode = 'create'" fontIcon="block"></mat-icon>
+      </span>
       <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="title" name="title" type="text" placeholder="Enter a title">
       <label class="font-bold">Description</label>
       <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="description" name="description" type="text" placeholder="Enter a description">
@@ -14,8 +18,11 @@
         <option value="dames">Dames</option>
         <option value="actie">Actie</option>
       </select>
-      <div class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addProduct()">
+      <div *ngIf="crudMode === 'create'" class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addProduct()">
         <mat-icon aria-hidden="false" fontIcon="add"></mat-icon>
+      </div>
+      <div *ngIf="crudMode === 'update'" class="flex justify-center bg-blue-200 m-2 rounded border border-gray-500 hover:bg-blue-300 hover:cursor-pointer" (click)="editProduct(this.id)">
+        <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
       </div>
     </form>
   </div>
@@ -23,7 +30,7 @@
     <h1 class="text-2xl font-bold m-2">Products</h1>
     <div class="grid grid-cols-3">
       <ng-container *ngFor="let product of products">
-        <app-product (deleteProduct)="removeProduct($event)" route="admin" [product]="product"></app-product>
+        <app-product (deleteProduct)="removeProduct($event)" (editProduct)="setProduct($event)" route="admin" [product]="product"></app-product>
       </ng-container>
     </div>
   </div>
