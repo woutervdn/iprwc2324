@@ -1,6 +1,6 @@
 <app-nav (category)="filterByCategory($event)"></app-nav>
-<div class="grid grid-cols-2">
-  <div class="grid grid-cols-3">
+<div class="grid grid-cols-3">
+  <div class="col-span-2 flex flex-wrap">
     <div *ngFor="let product of products">
       <app-product *ngIf="product.category === this.category || this.category === ''" route="main" [product]="product"></app-product>
     </div>

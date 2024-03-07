@@ -26,7 +26,7 @@ const routes: Routes = [
     MainComponent,
     AdminComponent,
     CartComponent,
-    OrderComponent
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

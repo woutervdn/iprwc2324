@@ -1,7 +1,7 @@
-<div class="flex">
+<div class="grid grid-cols-4">
   <div>
     <h1 class="text-2xl font-bold m-2">Add Product</h1>
-    <form class="m-3 p-4 grid grid-cols-1 w-max border rounded-2xl border-black">
+    <form class="m-3 p-4 grid grid-cols-1 border-2 rounded-2xl border-black">
       <label class="font-bold">Title</label>
       <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="title" name="title" type="text" placeholder="Enter a title">
       <label class="font-bold">Description</label>
@@ -19,7 +19,7 @@
       </div>
     </form>
   </div>
-  <div>
+  <div class="col-span-2">
     <h1 class="text-2xl font-bold m-2">Products</h1>
     <div class="grid grid-cols-3">
       <ng-container *ngFor="let product of products">
@@ -29,7 +29,7 @@
   </div>
   <div>
     <h1 class="text-2xl font-bold m-2">Orders</h1>
-    <div class="grid grid-cols-2">
+    <div>
       <ng-container *ngFor="let order of orders">
         <app-order [order]="order"></app-order>
       </ng-container>

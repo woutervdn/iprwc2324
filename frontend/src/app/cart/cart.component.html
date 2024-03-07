@@ -5,10 +5,10 @@
   </div>
   <p *ngIf="cart.items.length === 0">Geen producten in mandje</p>
   <ul *ngIf="cart.items.length > 0">
-    <li class="flex items-center" *ngFor="let item of this.cart.items">{{item.amount + "x " + item.product.title}}
-      <mat-icon class="mx-1 hover:cursor-pointer" fontIcon="remove_circle"></mat-icon>
-    </li>
+    <li class="flex items-center" *ngFor="let item of this.cart.items">{{item.amount + "x " + item.product.title}}</li>
   </ul>
   <p>Totaal: €{{this.cart.total.toFixed(2)}}</p>
-  <p *ngIf="cart.items.length > 0" (click)="orderCart()">Order</p>
+  <p *ngIf="cart.items.length > 0" (click)="orderCart()" class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer">
+    <mat-icon fontIcon="local_shipping"></mat-icon>
+  </p>
 </div>

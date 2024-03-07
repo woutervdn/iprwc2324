@@ -1,12 +1,12 @@
-<div class="m-2 rounded-2xl p-2 max-w-64 border-2 border-black">
+<div class="m-1 rounded-2xl p-2 max-w-64 border-2 border-black">
   <div class="flex justify-between items-center">
     <h1 class="text-2xl font-bold first-letter:uppercase">{{this.product.title}}</h1>
     <mat-icon *ngIf="route === 'admin'" (click)="delete()" class="bg-red-500 rounded hover:cursor-pointer" fontIcon="delete"></mat-icon>
   </div>
+  <img class="rounded" src="{{this.product.image}}" alt="{{this.product.title}}">
   <p>{{this.product.description}}</p>
-  <p>{{this.product.image}}</p>
-  <p>{{'€'+this.product.price}}</p>
+  <p class="text-2xl font-bold">{{'€'+this.product.price}}</p>
   <div *ngIf="route === 'main'" class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addToCart()">
-    <mat-icon aria-hidden="false" fontIcon="add"></mat-icon>
+    <mat-icon aria-hidden="false" fontIcon="add_shopping_cart"></mat-icon>
   </div>
 </div>

@@ -52,12 +52,12 @@ public class DataSeeder implements CommandLineRunner {
         Category actie = new Category("Actie");
         categoryRepository.saveAll(Arrays.asList(heren,dames,actie));
 
-        Product prod1 = new Product("Lange Broek", "Broek.png", BigDecimal.valueOf(54.99), "Lange broek voor in de winter", heren.getId());
-        Product prod2 = new Product("Lange Rok", "Rok.png", BigDecimal.valueOf(24.99), "Lange modieuze rok", dames.getId());
-        Product prod3 = new Product("Vest", "Vest.png", BigDecimal.valueOf(64.99), "Warm vest voor de winterdagen", actie.getId());
-        Product prod4 = new Product("Trui", "Trui.png", BigDecimal.valueOf(49.99), "Dikke trui voor jongeren", heren.getId());
-        Product prod5 = new Product("Zomer Jurk", "jurk.png", BigDecimal.valueOf(32.99), "Luchtige zomer jurk voor het strand", dames.getId());
-        Product prod6 = new Product("Badjas", "badjas.png", BigDecimal.valueOf(44.99), "Luxe badjas van schaapswol", actie.getId());
+        Product prod1 = new Product("Lange Broek", "/assets/jeans.jpg", BigDecimal.valueOf(54.99), "Gescheurde spijkerbroek", heren.getId());
+        Product prod2 = new Product("Korte Rok", "/assets/skirt.jpeg", BigDecimal.valueOf(24.99), "Korte denim rok", dames.getId());
+        Product prod3 = new Product("Shirt", "/assets/shirt.jpg", BigDecimal.valueOf(64.99), "Warm vest voor de winterdagen", actie.getId());
+        Product prod4 = new Product("Trui", "/assets/sweater.jpeg", BigDecimal.valueOf(49.99), "Dikke trui voor jongeren", heren.getId());
+        Product prod5 = new Product("Zomer Jurk", "/assets/dress.jpg", BigDecimal.valueOf(32.99), "Luchtige zomer jurk voor het strand", dames.getId());
+        Product prod6 = new Product("Winterjas", "/assets/coat.jpg", BigDecimal.valueOf(44.99), "Bruine modieuze winterjas voor mannen", actie.getId());
         productRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5, prod6));
     }
 
