@@ -21,8 +21,10 @@ export class LoginService {
     return this.http.post(this.apiUrl + 'user', user);
   }
 
-  checkalive(token: string) {
-    return this.http.post<any>(this.apiUrl + 'user/checkalive', token);
+  isAuthenticated() {
+    let token = localStorage.getItem('token');
+    this.http.post(this.apiUrl + 'user/checkalive', token).pipe();
+
   }
 
 }

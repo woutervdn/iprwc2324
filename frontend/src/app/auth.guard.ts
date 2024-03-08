@@ -1,6 +1,7 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
 import {LoginService} from "./login.service";
+import {concatMap} from "rxjs";
 
 export const authGuard: CanActivateFn = (route, state) => {
   const loginService = inject(LoginService);
@@ -8,13 +9,13 @@ export const authGuard: CanActivateFn = (route, state) => {
   let guard: boolean = false;
 
   if (localStorage.getItem('token') !== null) {
-    loginService.checkalive(localStorage.getItem('token') ?? '').subscribe(res => {
-      guard = res.status;
-    })
+    guard = loginService.checkalive(localStorage.getItem('token') ?? '').pipe( concatMap(res => {
+      return res.status;
+    }))
   } else {
-    router.navigateByUrl('/login');
+    console.log('check');
   }
-
+  console.log('guard', guard)
 
   return guard;
 };
