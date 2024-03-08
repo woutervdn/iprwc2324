@@ -31,6 +31,10 @@ public class User {
 
     private String token;
 
+    private Date expirationDate;
+
+    private boolean isAdmin;
+
     @CreationTimestamp
     private Date createdAt;
 

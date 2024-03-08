@@ -3,6 +3,7 @@ import {Product} from "../../models/product";
 import {ProductService} from "../product.service";
 import {CartService} from "../cart.service";
 import {Cart} from "../../models/cart";
+import {AdminComponent} from "../admin/admin.component";
 
 @Component({
   selector: 'app-main',
@@ -26,4 +27,5 @@ export class MainComponent implements OnInit {
     });
   }
 
+  protected readonly AdminComponent = AdminComponent;
 }

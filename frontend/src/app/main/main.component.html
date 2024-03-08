@@ -1,4 +1,5 @@
 <app-nav (category)="filterByCategory($event)"></app-nav>
+<a [routerLink]="/admin"></a>
 <div class="grid grid-cols-3">
   <div class="col-span-2 flex flex-wrap">
     <div *ngFor="let product of products">
