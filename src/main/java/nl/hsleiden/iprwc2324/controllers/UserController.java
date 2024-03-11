@@ -56,7 +56,7 @@ public class UserController {
 
         userRepository.save(validUser);
 
-        return new ResponseEntity<>(new LoginResponse("Logged In", true, validUser.getToken()), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponse("Logged In", true, validUser.isAdmin(), validUser.getToken()), HttpStatus.OK);
     }
 
     @PostMapping

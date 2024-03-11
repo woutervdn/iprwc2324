@@ -18,6 +18,8 @@ public class LoginResponse {
 
     private boolean success;
 
+    private boolean admin;
+
     private String token;
 
 }

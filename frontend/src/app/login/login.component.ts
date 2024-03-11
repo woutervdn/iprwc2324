@@ -16,14 +16,7 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.loginService.login({ username: this.username, password: this.password}).subscribe(res => {
-      console.log("response", res);
-      if (res.token){
-        localStorage.setItem('token', res.token);
-      }
-    }, error => {
-      console.log("error", error)
-    })
+    this.loginService.login({ username: this.username, password: this.password});
   }
 
 }

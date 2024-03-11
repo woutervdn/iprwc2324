@@ -7,6 +7,7 @@ import nl.hsleiden.iprwc2324.repositories.CategoryRepository;
 import nl.hsleiden.iprwc2324.repositories.ProductRepository;
 import nl.hsleiden.iprwc2324.requests.ProductRequest;
 import nl.hsleiden.iprwc2324.responses.ProductResponse;
+import nl.hsleiden.iprwc2324.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class ProductController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> productIndex() {
@@ -51,7 +55,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> productCreate(@RequestBody ProductRequest product) {
+    public ResponseEntity<Object> productCreate(@RequestBody ProductRequest product, @RequestHeader("Authorization") String token) {
+        System.out.println("Token: " + token);
+        if (!this.authService.isPermitted(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         Product p = new Product();
 
         if (product.title.isEmpty() || product.description.isEmpty() || product.category.isEmpty()) {
