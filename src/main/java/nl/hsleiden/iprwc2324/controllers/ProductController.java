@@ -1,6 +1,5 @@
 package nl.hsleiden.iprwc2324.controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import nl.hsleiden.iprwc2324.models.Category;
 import nl.hsleiden.iprwc2324.models.Product;
 import nl.hsleiden.iprwc2324.repositories.CategoryRepository;
@@ -9,10 +8,8 @@ import nl.hsleiden.iprwc2324.requests.ProductRequest;
 import nl.hsleiden.iprwc2324.responses.ProductResponse;
 import nl.hsleiden.iprwc2324.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +54,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Object> productCreate(@RequestBody ProductRequest product, @RequestHeader("Authorization") String token) {
         System.out.println("Token: " + token);
-        if (!this.authService.isPermitted(token)) {
+        if (!this.authService.isAuthenticated(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
