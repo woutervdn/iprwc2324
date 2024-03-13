@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SnackbarService} from "../snackbar.service";
 
 @Component({
   selector: 'app-login',
@@ -14,11 +16,11 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    public snackbar: MatSnackBar
+    private route: ActivatedRoute,
   ) {}
 
   login() {
-    this.authService.login({ username: this.username, password: this.password});
+    this.authService.login({ username: this.username, password: this.password}, this.route.snapshot.queryParams['redirect']);
   }
 
   register() {

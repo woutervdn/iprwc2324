@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import {authGuard} from "./auth.guard";
 import { CustomerComponent } from './customer/customer.component';
 import {adminGuard} from "./admin.guard";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -44,6 +46,8 @@ const routes: Routes = [
     RouterLinkActive,
     MatIconModule,
     RouterLink,
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
   providers: [provideRouter(routes)],
   bootstrap: [AppComponent]

@@ -27,11 +27,21 @@ export class ProductService {
   }
 
   update(product: any) {
-    return this.http.put<Product>(this.apiUrl + 'product', product);
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+
+    return this.http.put<Product>(this.apiUrl + 'product', product, {
+      headers: header
+    });
   }
 
   delete(productId: number) {
-    return this.http.delete<Product>(this.apiUrl + 'product/' + productId);
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+
+    return this.http.post<Product>(this.apiUrl + 'product/' + productId, {
+      headers: header
+    });
   }
 
 

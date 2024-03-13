@@ -40,6 +40,7 @@ public class DataSeeder implements CommandLineRunner {
         user.setUsername("admin");
         user.setPassword(encoder.encode("test1234"));
         user.setToken(RandomStringUtils.randomAlphanumeric(128));
+        user.setAdmin(true);
 
         userRepository.save(user);
 

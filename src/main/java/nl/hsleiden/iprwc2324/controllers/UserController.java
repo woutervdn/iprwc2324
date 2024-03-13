@@ -61,6 +61,8 @@ public class UserController {
 
     @PostMapping
     public @ResponseBody User createUser(@RequestBody LoginRequest user) {
+        System.out.println("username: " + user.getUsername());
+        System.out.println("password: " + user.getPassword());
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(encoder.encode(user.getPassword()));

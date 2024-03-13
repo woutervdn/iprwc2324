@@ -7,6 +7,7 @@ import nl.hsleiden.iprwc2324.models.User;
 import nl.hsleiden.iprwc2324.repositories.*;
 import nl.hsleiden.iprwc2324.requests.OrderItemRequest;
 import nl.hsleiden.iprwc2324.requests.OrderRequest;
+import nl.hsleiden.iprwc2324.responses.OrderResponse;
 import nl.hsleiden.iprwc2324.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,13 +56,17 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<Object> orderRead(@PathVariable Long orderId) {
-        Optional<ProductOrder> order = productOrderRepository.findById(orderId);
+        Optional<ProductOrder> productOrder = productOrderRepository.findById(orderId);
 
-        if (!order.isPresent()) {
+        if (productOrder.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(order.get(), HttpStatus.OK);
+        ProductOrder order = productOrder.get();
+
+        OrderResponse response = new OrderResponse(order.getId(), order.getUser().getId(), order.getItems(), order.getTotal());
+
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -105,7 +110,9 @@ public class OrderController {
 
         productOrderRepository.save(order);
 
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        OrderResponse response = new OrderResponse(order.getId(), validUser.getId(), order.getItems(), order.getTotal());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{orderID}")

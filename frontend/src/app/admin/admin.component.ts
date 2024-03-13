@@ -3,6 +3,7 @@ import {ProductService} from "../product.service";
 import {Product} from "../../models/product";
 import {Order} from "../../models/order";
 import {OrderService} from "../order.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-admin',
@@ -25,11 +26,19 @@ export class AdminComponent implements OnInit, OnChanges {
 
   constructor(
     private productService: ProductService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public snackBar: MatSnackBar
   ) {}
   ngOnChanges(): void {
     this.fetchProducts();
     this.fetchOrders();
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, '', {
+      verticalPosition: "top",
+      duration: 5000,
+    });
   }
 
   ngOnInit() {
@@ -60,8 +69,15 @@ export class AdminComponent implements OnInit, OnChanges {
       "category": this.category
     }
 
-    this.productService.create(prodObj).subscribe(data => {
-      this.fetchProducts();
+    this.productService.create(prodObj).subscribe({
+      next: data => this.fetchProducts(),
+      error: err => {
+        if (err.status === 401) {
+          this.openSnackBar('Unauthorized');
+        } else {
+          this.openSnackBar(err);
+        }
+      }
     });
   }
 
