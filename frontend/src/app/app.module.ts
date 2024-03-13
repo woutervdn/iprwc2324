@@ -14,10 +14,13 @@ import { OrderComponent } from './order/order.component';
 import {MatIconModule} from "@angular/material/icon";
 import { LoginComponent } from './login/login.component';
 import {authGuard} from "./auth.guard";
+import { CustomerComponent } from './customer/customer.component';
+import {adminGuard} from "./admin.guard";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
-  {path: 'admin', component: AdminComponent, canActivate: [authGuard]},
+  {path: 'admin', component: AdminComponent, canActivate: [authGuard, adminGuard]},
+  {path: 'customer', component: CustomerComponent, canActivate: [authGuard]},
   {path: 'login', component: LoginComponent}
 ]
 
@@ -31,6 +34,7 @@ const routes: Routes = [
     CartComponent,
     OrderComponent,
     LoginComponent,
+    CustomerComponent,
   ],
   imports: [
     BrowserModule,

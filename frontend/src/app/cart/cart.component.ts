@@ -33,7 +33,7 @@ export class CartComponent implements OnInit {
   }
 
   orderCart() {
-    this.orderService.create(this.cart);
+    this.orderService.create(this.cart).subscribe();
   }
 
   ngOnInit(): void {

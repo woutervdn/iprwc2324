@@ -25,11 +25,11 @@ public class ProductOrder {
     @Setter
     private Long id;
 
-//    @Getter
-//    @Setter
-//    @OneToOne
-//    @Nonnull
-//    private User user;
+    @Getter
+    @Setter
+    @OneToOne
+    @Nonnull
+    private User user;
 
     @Getter
     @Setter

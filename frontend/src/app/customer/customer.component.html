@@ -1,0 +1,8 @@
+<div>
+  <h1 class="text-2xl font-bold m-2">My Orders</h1>
+  <div>
+    <ng-container *ngFor="let order of orders">
+      <app-order [order]="order"></app-order>
+    </ng-container>
+  </div>
+</div>

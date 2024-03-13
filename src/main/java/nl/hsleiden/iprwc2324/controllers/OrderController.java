@@ -3,9 +3,11 @@ package nl.hsleiden.iprwc2324.controllers;
 import nl.hsleiden.iprwc2324.models.Product;
 import nl.hsleiden.iprwc2324.models.ProductOrder;
 import nl.hsleiden.iprwc2324.models.ProductOrderItem;
+import nl.hsleiden.iprwc2324.models.User;
 import nl.hsleiden.iprwc2324.repositories.*;
 import nl.hsleiden.iprwc2324.requests.OrderItemRequest;
 import nl.hsleiden.iprwc2324.requests.OrderRequest;
+import nl.hsleiden.iprwc2324.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,20 @@ public class OrderController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private AuthService authService;
+
     @GetMapping()
-    public ResponseEntity<Iterable<ProductOrder>> orderIndex() {
-        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Object> orderIndex(@RequestHeader("Authorization") String token) {
+        if (!authService.isAuthenticated(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        if (authService.isAuthenticatedAndAdmin(token)) {
+            return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(productOrderRepository.getProductOrderByUserToken(token), HttpStatus.OK);
     }
 
     @GetMapping("/{orderId}")
@@ -52,7 +65,18 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> orderCreate(@RequestBody OrderRequest request) {
+    public ResponseEntity<Object> orderCreate(@RequestHeader("Authorization") String token, @RequestHeader@RequestBody OrderRequest request) {
+        if (!authService.isAuthenticated(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<User> user = userRepository.getUserByToken(token);
+        if (user.isEmpty()) {
+            return new ResponseEntity<>("User not Found", HttpStatus.BAD_REQUEST);
+        }
+
+        User validUser = user.get();
+
         ProductOrder order = new ProductOrder();
         BigDecimal total = BigDecimal.valueOf(0);
         List<ProductOrderItem> items = new ArrayList<>();
@@ -77,6 +101,7 @@ public class OrderController {
 
         order.setTotal(total);
         order.setItems(items);
+        order.setUser(validUser);
 
         productOrderRepository.save(order);
 

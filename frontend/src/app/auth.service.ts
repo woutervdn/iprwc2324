@@ -9,11 +9,13 @@ import {Router} from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/';
 
   private authenticated = false;
+
+  private admin = false;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -29,13 +31,10 @@ export class LoginService {
     });
   }
 
-  getToken(user: User){
-
-  }
-
   logout() {
     localStorage.setItem('token', '');
     this.authenticated = false;
+    this.admin = false;
   }
 
   register(user: User) {
@@ -44,6 +43,10 @@ export class LoginService {
 
   isAuthenticated() {
     return this.authenticated;
+  }
+
+  isAdmin(): boolean {
+    return this.admin;
   }
 
 }

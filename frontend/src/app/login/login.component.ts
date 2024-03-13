@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {LoginService} from "../login.service";
+import {AuthService} from "../auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -8,15 +9,20 @@ import {LoginService} from "../login.service";
 })
 export class LoginComponent {
 
-  username: string = 'admin';
-  password: string = 'test1234';
+  username: string = '';
+  password: string = '';
 
   constructor(
-    private loginService: LoginService
+    private authService: AuthService,
+    public snackbar: MatSnackBar
   ) {}
 
   login() {
-    this.loginService.login({ username: this.username, password: this.password});
+    this.authService.login({ username: this.username, password: this.password});
+  }
+
+  register() {
+    this.authService.register({ username: this.username, password: this.password})
   }
 
 }

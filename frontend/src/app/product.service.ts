@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Product} from "../models/product";
 import {data} from "autoprefixer";
-import {LoginService} from "./login.service";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class ProductService {
 
   private apiUrl = 'http://localhost:8080/api/';
 
-  constructor(private http: HttpClient, private loginService: LoginService) { }
+  constructor(private http: HttpClient, private loginService: AuthService) { }
 
   index() {
     return this.http.get<Product[]>(this.apiUrl + 'product');

@@ -34,7 +34,9 @@ public class ProductController {
 
         List<ProductResponse> response = new ArrayList<>();
 
-        for (Product p: productRepository.findAll()) {
+        Iterable<Product> products = productRepository.findAll();
+
+        for (Product p: products) {
             String category = categoryRepository.findById(p.getCategoryId()).get().getName();
 
             ProductResponse res = new ProductResponse(

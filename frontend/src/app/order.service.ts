@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Product} from "../models/product";
 import {Order} from "../models/order";
 
@@ -13,13 +13,21 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   index() {
-    return this.http.get<Order[]>(this.apiUrl + 'order');
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+
+    return this.http.get<Order[]>(this.apiUrl + 'order', {
+      headers: header
+    });
   }
 
   create(order: any) {
-    return this.http.post(this.apiUrl + 'order', order).subscribe(data => {
-      console.log(data);
-    })
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+
+    return this.http.post(this.apiUrl + 'order', order, {
+      headers: header
+    });
   }
 
 }
