@@ -53,7 +53,8 @@ export class AuthService {
         this.snackBarService.openSnackBar('Registered Succesfully, please login.');
       },
       error: err => {
-        this.snackBarService.openSnackBar('Could not register, please try again');
+        console.log(err);
+        this.snackBarService.openSnackBar('Could not register, please try again: ');
       }
     });
   }

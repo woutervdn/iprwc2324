@@ -11,8 +11,8 @@ import {SnackbarService} from "../snackbar.service";
 })
 export class LoginComponent {
 
-  username: string = '';
-  password: string = '';
+  username: any = null;
+  password: any = null;
 
   constructor(
     private authService: AuthService,

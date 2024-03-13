@@ -60,9 +60,14 @@ public class UserController {
     }
 
     @PostMapping
-    public @ResponseBody User createUser(@RequestBody LoginRequest user) {
+    public ResponseEntity<Object> createUser(@RequestBody LoginRequest user) {
         System.out.println("username: " + user.getUsername());
         System.out.println("password: " + user.getPassword());
+
+        if (user.getPassword().isEmpty() || user.getUsername().isEmpty()) {
+            return new ResponseEntity<>("Username or password empty", HttpStatus.BAD_REQUEST);
+        }
+
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(encoder.encode(user.getPassword()));
@@ -75,7 +80,7 @@ public class UserController {
         cart.setUser(newUser);
         cartRepository.save(cart);
 
-        return newUser;
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @PostMapping("/checkalive")

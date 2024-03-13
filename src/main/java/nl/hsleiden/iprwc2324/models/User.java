@@ -1,15 +1,14 @@
 package nl.hsleiden.iprwc2324.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nonnull;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -25,8 +24,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
+    @Nonnull
     private String username;
 
+    @Nonnull
     private String password;
 
     private String token;
