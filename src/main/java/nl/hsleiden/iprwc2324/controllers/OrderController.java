@@ -70,7 +70,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> orderCreate(@RequestHeader("Authorization") String token, @RequestHeader@RequestBody OrderRequest request) {
+    public ResponseEntity<Object> orderCreate(@RequestHeader("Authorization") String token, @RequestBody OrderRequest request) {
         if (!authService.isAuthenticated(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
