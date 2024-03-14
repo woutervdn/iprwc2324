@@ -1,4 +1,4 @@
-<div class="grid grid-cols-4">
+<div class="grid grid-cols-4 overflow-hidden">
   <div>
     <h1 *ngIf="crudMode === 'create'" class="text-2xl font-bold m-2">Add Product</h1>
     <h1 *ngIf="crudMode === 'update'" class="text-2xl font-bold m-2">Edit Product</h1>
@@ -34,12 +34,22 @@
       </ng-container>
     </div>
   </div>
-  <div>
-    <h1 class="text-2xl font-bold m-2">Orders</h1>
-    <div>
-      <ng-container *ngFor="let order of orders">
-        <app-order [order]="order"></app-order>
-      </ng-container>
+  <div class="grid grid-rows-2 h-screen">
+    <div class="overflow-y-scroll">
+      <h1 class="text-2xl font-bold m-2">Orders</h1>
+      <div>
+        <ng-container *ngFor="let order of orders">
+          <app-order [order]="order"></app-order>
+        </ng-container>
+      </div>
+    </div>
+    <div class="overflow-y-scroll">
+      <h1 class="text-2xl font-bold m-2">Users</h1>
+      <div class="">
+        <ng-container *ngFor="let user of users">
+          <app-user [user]="user"></app-user>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

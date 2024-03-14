@@ -19,6 +19,13 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ProductOrder {
 
+    public ProductOrder(@Nonnull User user, List<ProductOrderItem> items, BigDecimal total) {
+        this.user = user;
+        this.items = items;
+        this.total = total;
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
@@ -45,5 +52,4 @@ public class ProductOrder {
 
     @UpdateTimestamp
     private Date updatedAt;
-
 }

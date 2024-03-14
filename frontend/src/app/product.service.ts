@@ -39,7 +39,7 @@ export class ProductService {
     let header = new HttpHeaders();
     header = header.set('Authorization', `${localStorage.getItem('token')}`);
 
-    return this.http.post<Product>(this.apiUrl + 'product/' + productId, {
+    return this.http.delete<Product>(this.apiUrl + 'product/' + productId, {
       headers: header
     });
   }

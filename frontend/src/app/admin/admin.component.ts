@@ -4,6 +4,8 @@ import {Product} from "../../models/product";
 import {Order} from "../../models/order";
 import {OrderService} from "../order.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {User} from "../../models/user";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-admin',
@@ -14,6 +16,7 @@ export class AdminComponent implements OnInit, OnChanges {
 
   public products: Product[] = [];
   public orders: Order[] = [];
+  public users: any[] = [];
 
   id: number = 0;
   title: string = '';
@@ -27,11 +30,13 @@ export class AdminComponent implements OnInit, OnChanges {
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
+    private userService: UserService,
     public snackBar: MatSnackBar
   ) {}
   ngOnChanges(): void {
     this.fetchProducts();
     this.fetchOrders();
+    this.fetchUsers();
   }
 
   openSnackBar(message: string) {
@@ -44,6 +49,7 @@ export class AdminComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.fetchProducts();
     this.fetchOrders();
+    this.fetchUsers();
   }
 
   fetchProducts() {
@@ -58,6 +64,14 @@ export class AdminComponent implements OnInit, OnChanges {
       this.orders = data;
       console.log("orders", this.orders);
     });
+  }
+
+  fetchUsers() {
+    this.userService.getAll().subscribe({
+      next: users => {
+        this.users = users;
+      }
+    })
   }
 
   addProduct(): void {

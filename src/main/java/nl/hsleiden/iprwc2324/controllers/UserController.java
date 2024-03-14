@@ -8,6 +8,8 @@ import nl.hsleiden.iprwc2324.repositories.UserRepository;
 import nl.hsleiden.iprwc2324.requests.LoginRequest;
 import nl.hsleiden.iprwc2324.requests.getUserRequest;
 import nl.hsleiden.iprwc2324.responses.LoginResponse;
+import nl.hsleiden.iprwc2324.responses.UserResponse;
+import nl.hsleiden.iprwc2324.services.AuthService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.coyote.Response;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,11 +36,43 @@ public class UserController {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private AuthService authService;
+
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @GetMapping
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<Object> getAllUsers(@RequestHeader("Authorization") String token) {
+        if (!authService.isAuthenticatedAndAdmin(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        List<UserResponse> response = new ArrayList<>();
+
+        for (User user: userRepository.findAll()) {
+            UserResponse res = new UserResponse(user);
+            response.add(res);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Object> logout(@RequestHeader("Authorization") String token) {
+        if (!authService.isAuthenticated(token)) {
+            return new ResponseEntity<>("Invalid Token", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<User> user = userRepository.getUserByToken(token);
+        if (user.isEmpty()) {
+            return new ResponseEntity<>("User not Found", HttpStatus.NOT_FOUND);
+        }
+
+        User validUser = user.get();
+        validUser.setToken(RandomStringUtils.randomAlphanumeric(128));
+        userRepository.save(validUser);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -81,22 +116,6 @@ public class UserController {
         cartRepository.save(cart);
 
         return new ResponseEntity<>(newUser, HttpStatus.OK);
-    }
-
-    @PostMapping("/checkalive")
-    public ResponseEntity<LoginResponse> checkAlive(@RequestBody String token) {
-        Optional<User> user = userRepository.getUserByToken(token);
-        if (user.isEmpty()) {
-            return new ResponseEntity<>(new LoginResponse("User not found", false),HttpStatus.OK);
-        }
-
-        User validUser = user.get();
-
-        if (validUser.getExpirationDate().before(new Date())) {
-            return new ResponseEntity<>(new LoginResponse("Token Expired", false),HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new LoginResponse("Valid Token", true),HttpStatus.OK);
-        }
     }
 
 }

@@ -30,4 +30,13 @@ export class OrderService {
     });
   }
 
+  delete(id: number) {
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+
+    return this.http.delete(this.apiUrl + 'order/' + id, {
+      headers: header
+    });
+  }
+
 }

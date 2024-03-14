@@ -159,7 +159,11 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderID}")
-    public ResponseEntity<Object> orderDelete(@PathVariable Long orderID) {
+    public ResponseEntity<Object> orderDelete(@RequestHeader("Authorization") String token, @PathVariable Long orderID) {
+        if (!authService.isAuthenticatedAndAdmin(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         Optional<ProductOrder> productOrder = productOrderRepository.findById(orderID);
 
         if (productOrder.isEmpty()) {

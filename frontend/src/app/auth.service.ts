@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../models/user";
 import {Product} from "../models/product";
 import {LoginResponse} from "../models/login_response";
@@ -14,9 +14,9 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/';
 
-  private authenticated = false;
+  private authenticated = true;
 
-  private admin = false;
+  private admin = true;
 
   constructor(
     private http: HttpClient,
@@ -41,10 +41,18 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.setItem('token', '');
-    this.authenticated = false;
-    this.admin = false;
-    this.snackBarService.openSnackBar('Logged out');
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `${localStorage.getItem('token')}`);
+    return this.http.get(this.apiUrl + 'user/logout', {
+      headers: header
+    }).subscribe({
+      next: () => {
+        localStorage.setItem('token', '');
+        this.authenticated = false;
+        this.admin = false;
+        this.snackBarService.openSnackBar('Logged out');
+      }
+    })
   }
 
   register(user: User) {

@@ -18,6 +18,7 @@ import { CustomerComponent } from './customer/customer.component';
 import {adminGuard} from "./admin.guard";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -37,6 +38,7 @@ const routes: Routes = [
     OrderComponent,
     LoginComponent,
     CustomerComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
