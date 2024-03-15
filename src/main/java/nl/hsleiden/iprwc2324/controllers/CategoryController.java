@@ -30,14 +30,13 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
     @GetMapping()
     public ResponseEntity<Object> categoryIndex() {
         return new ResponseEntity<>(categoryService.index(), HttpStatus.OK);
     }
 
     @GetMapping("/{catId}")
-    public ResponseEntity<Object> orderRead(@PathVariable Long catId) {
+    public ResponseEntity<Object> orderRead(@PathVariable("catId") Long catId) {
         Optional<Category> category = categoryService.read(catId);
         if (category.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
