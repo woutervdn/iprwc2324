@@ -50,10 +50,11 @@ public class DataSeeder implements CommandLineRunner {
         cart.setUser(user);
         cartRepository.save(cart);
 
+        Category none = new Category("Geen");
         Category heren = new Category("Heren");
         Category dames = new Category("Dames");
         Category actie = new Category("Actie");
-        categoryRepository.saveAll(Arrays.asList(heren,dames,actie));
+        categoryRepository.saveAll(Arrays.asList(heren,dames,actie,none));
 
         Product prod1 = new Product("Lange Broek", "/assets/jeans.jpg", BigDecimal.valueOf(54.99), "Gescheurde spijkerbroek", heren.getId());
         Product prod2 = new Product("Korte Rok", "/assets/skirt.jpeg", BigDecimal.valueOf(24.99), "Korte denim rok", dames.getId());
@@ -67,13 +68,13 @@ public class DataSeeder implements CommandLineRunner {
         Product prod10 = new Product("Wit Overhemd", "/assets/white_shirt.jpg", BigDecimal.valueOf(79.99), "Professioneel wit overhemd", heren.getId());
         productRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10));
 
-        ProductOrderItem item1 = new ProductOrderItem(prod1, 2);
-        ProductOrderItem item2 = new ProductOrderItem(prod2, 3);
-        List<ProductOrderItem> items = new ArrayList<>(Arrays.asList(item1, item2));
-        productOrderItemRepository.saveAll(items);
-
-        ProductOrder order1 = new ProductOrder(user, items, BigDecimal.valueOf(184.95));
-        productOrderRepository.save(order1);
+//        ProductOrderItem item1 = new ProductOrderItem(prod1, 2);
+//        ProductOrderItem item2 = new ProductOrderItem(prod2, 3);
+//        List<ProductOrderItem> items = new ArrayList<>(Arrays.asList(item1, item2));
+//        productOrderItemRepository.saveAll(items);
+//
+//        ProductOrder order1 = new ProductOrder(user, items, BigDecimal.valueOf(184.95));
+//        productOrderRepository.save(order1);
     }
 
 }

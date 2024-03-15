@@ -1,0 +1,9 @@
+<div class="m-1 rounded-2xl p-2 max-w-64 border-2 border-black">
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-bold first-letter:uppercase">{{this.category.name}}</h1>
+    <div>
+      <mat-icon (click)="edit()" class="bg-blue-500 mx-1 rounded hover:cursor-pointer hover:bg-blue-400" fontIcon="edit"></mat-icon>
+      <mat-icon (click)="delete()" class="bg-red-500 mx-1 rounded hover:cursor-pointer hover:bg-red-400" fontIcon="delete"></mat-icon>
+    </div>
+  </div>
+</div>

@@ -34,7 +34,7 @@ public class ProductOrder {
 
     @Getter
     @Setter
-    @OneToOne
+    @ManyToOne
     @Nonnull
     private User user;
 

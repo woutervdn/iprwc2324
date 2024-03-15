@@ -1,6 +1,7 @@
 <div class="grid grid-cols-4 overflow-hidden">
   <div>
-    <div>
+    <p (click)="toggleType()">Toggle Type</p>
+    <div *ngIf="type === 'product'">
       <h1 *ngIf="crudMode === 'create'" class="text-2xl font-bold m-2">Add Product</h1>
       <h1 *ngIf="crudMode === 'update'" class="text-2xl font-bold m-2">Edit Product</h1>
       <form class="m-3 p-4 grid grid-cols-1 border-2 rounded-2xl border-black">
@@ -27,16 +28,32 @@
         </div>
       </form>
     </div>
+    <div *ngIf="type === 'category'">
+      <h1 *ngIf="crudMode === 'create'" class="text-2xl font-bold m-2">Add Category</h1>
+      <h1 *ngIf="crudMode === 'update'" class="text-2xl font-bold m-2">Edit Category</h1>
+      <form class="m-3 p-4 grid grid-cols-1 border-2 rounded-2xl border-black">
+      <span class="flex justify-between">
+        <label class="font-bold">Name</label>
+        <mat-icon *ngIf="crudMode === 'update'" class="bg-red-500 mx-1 rounded hover:cursor-pointer hover:bg-red-400" (click)="crudMode = 'create'" fontIcon="block"></mat-icon>
+      </span>
+        <input class="border rounded p-0.5 my-1 border-gray-500" [(ngModel)]="name" name="name" type="text" placeholder="Enter a title">
+        <div *ngIf="crudMode === 'create'" class="flex justify-center bg-green-200 m-2 rounded border border-gray-500 hover:bg-green-300 hover:cursor-pointer" (click)="addCategory()">
+          <mat-icon aria-hidden="false" fontIcon="add"></mat-icon>
+        </div>
+        <div *ngIf="crudMode === 'update'" class="flex justify-center bg-blue-200 m-2 rounded border border-gray-500 hover:bg-blue-300 hover:cursor-pointer" (click)="editCategory(this.id)">
+          <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
+        </div>
+      </form>
+    </div>
     <div class="overflow-y-scroll">
       <h1 class="text-2xl font-bold m-2">Categories</h1>
       <div class="">
-        <ng-container *ngFor="let user of users">
-          <app-user [user]="user"></app-user>
+        <ng-container *ngFor="let category of categories">
+          <app-category (deleteCategory)="removeCategory($event)" (editCategory)="setCategory($event)" [category]="category"></app-category>
         </ng-container>
       </div>
     </div>
   </div>
-
   <div class="col-span-2">
     <div class="">
       <h1 class="text-2xl font-bold m-2">Products</h1>
@@ -53,12 +70,6 @@
       <div>
         <ng-container *ngFor="let order of orders">
           <app-order [order]="order"></app-order>
-          <app-order [order]="order"></app-order>
-          <app-order [order]="order"></app-order>
-          <app-order [order]="order"></app-order>
-          <app-order [order]="order"></app-order>
-          <app-order [order]="order"></app-order>
-
         </ng-container>
       </div>
     </div>

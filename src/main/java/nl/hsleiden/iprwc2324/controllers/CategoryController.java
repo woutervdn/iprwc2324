@@ -30,6 +30,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @GetMapping()
     public ResponseEntity<Object> categoryIndex() {
         return new ResponseEntity<>(categoryService.index(), HttpStatus.OK);
@@ -68,10 +71,18 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{catId}")
-    public ResponseEntity<Object> orderDelete(@RequestHeader("Authorization") String token, @PathVariable Long catId) {
+    public ResponseEntity<Object> categoryDelete(@RequestHeader("Authorization") String token, @PathVariable Long catId) {
         if (!authService.isAuthenticatedAndAdmin(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
+        Iterable<Product> products = productRepository.getProductsByCategoryId(catId);
+
+        for (Product product: products) {
+            product.setCategoryId(1L);
+        }
+
+        productRepository.saveAll(products);
 
         categoryService.delete(catId);
 
